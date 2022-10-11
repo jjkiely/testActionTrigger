@@ -27,7 +27,11 @@ jobs:
       runs-on: ubuntu-latest
       name: Create Release
       steps:
-        - uses: convictional/trigger-workflow-and-wait@v1.6.4
+        - uses: aurelien-baudet/workflow-dispatch@v2.1.1
           with:
-           tag_name: ${{ inputs.tag }}
-           target_commitish: ${{ inputs.commit }}
+           repo: jjkiely/testRelease
+           token: ${{ secrets.ACCESS_TOKEN }}
+           workflow: manual.yml
+           inputs: '{ "Tag": "${{ inputs.Tag }}", "Commit": "${{ inputs.Commit }}"'
+           wait-for-completion: true
+           display-workflow-run-url: true
