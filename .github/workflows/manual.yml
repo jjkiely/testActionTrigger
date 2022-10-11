@@ -32,6 +32,6 @@ jobs:
            repo: jjkiely/testRelease
            token: ${{ secrets.ACCESS_TOKEN }}
            workflow: manual.yml
-           inputs: '{ "Tag": "${{ inputs.Tag }}", "Commit": "${{ inputs.Commit }}"'
+           inputs: '{ "Tag": "${{ inputs.Tag }}", "Commit": "${{ inputs.Commit }}"}'
            wait-for-completion: true
            display-workflow-run-url: true
