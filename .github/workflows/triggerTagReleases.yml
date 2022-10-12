@@ -9,14 +9,13 @@ on:
     # Inputs the workflow accepts.
     inputs:
       Tag:
-        # Friendly description to be shown in the UI instead of 'name'
         description: 'Tag to be created along with release'
         # Default value if no value is explicitly provided
         default: ''
         # Input has to be provided for the workflow to run
         required: true
-      Commit: 
-        description: 'Commit reference to create tag from'
+      Commitish: 
+        description: 'Commitish reference to create tag from'
         default: ''
         required: true
 
@@ -25,13 +24,16 @@ jobs:
   # This workflow contains a single job called "greet"
   createRelease:
       runs-on: ubuntu-latest
-      name: Create Release
+      strategy:
+        matrix:
+          repo: [3scale/porta, 3scale/apisonator, 3scale/APIcast, 3scale/3scale_toolbox, 3scale/zync, 3scale/apicast-operator, 3scale/3scale-operator]
+      name: Create Release for ${{ matrix.repo }}
       steps:
         - uses: aurelien-baudet/workflow-dispatch@v2.1.1
           with:
-           repo: jjkiely/testRelease
+           repo: ${{ matrix.repo }}
            token: ${{ secrets.ACCESS_TOKEN }}
-           workflow: manual.yml
-           inputs: '{ "Tag": "${{ inputs.Tag }}", "Commit": "${{ inputs.Commit }}"}'
+           workflow: tagRelease.yml
+           inputs: '{ "Tag": "${{ inputs.Tag }}", "Commitish": "${{ inputs.Commitish }}"}'
            wait-for-completion: true
            display-workflow-run-url: true
